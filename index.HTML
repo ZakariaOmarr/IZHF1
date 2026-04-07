@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IZHF | Hydroponic Farming</title>
+
+  <style>
+    :root{
+      --bg: #07111f;
+      --bg-2: #0b1730;
+      --card: rgba(255,255,255,0.06);
+      --card-2: rgba(255,255,255,0.08);
+      --text: #eaf2ff;
+      --muted: rgba(234,242,255,0.72);
+      --green: #2ee59d;
+      --green-2: #67f5b4;
+      --line: rgba(255,255,255,0.10);
+      --shadow: 0 18px 50px rgba(0,0,0,0.45);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(46,229,157,0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(60,124,255,0.14), transparent 24%),
+        linear-gradient(180deg, #05101d 0%, #07111f 50%, #050b15 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(46,229,157,0.10), transparent 18%),
+        radial-gradient(circle at 80% 20%, rgba(103,245,180,0.08), transparent 16%),
+        radial-gradient(circle at 65% 70%, rgba(71,140,255,0.06), transparent 20%);
+      filter: blur(25px);
+      opacity: 0.9;
+      z-index: 0;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 16px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+
+    .nav-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 999px;
+      background: rgba(7, 17, 31, 0.62);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.28);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      min-width: fit-content;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(46,229,157,0.25), rgba(103,245,180,0.08));
+      border: 1px solid rgba(46,229,157,0.22);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: var(--green);
+      box-shadow: inset 0 0 18px rgba(46,229,157,0.18);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 1.02rem;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      transition: 0.25s ease;
+      color: rgba(234,242,255,0.9);
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 11px 18px;
+      border-radius: 999px;
+      color: #07111f;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      box-shadow: 0 10px 28px rgba(46,229,157,0.22);
+      transition: 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(46,229,157,0.30);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding: 132px 0 60px;
+      display: grid;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      padding-right: 12px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(46,229,157,0.22);
+      background: rgba(46,229,157,0.08);
+      color: var(--green-2);
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 5vw, 5rem);
+      line-height: 0.98;
+      margin-bottom: 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #ffffff, #b6ffd7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      color: #05101d;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      box-shadow: 0 14px 30px rgba(46,229,157,0.22);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(46,229,157,0.30);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.09);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+      max-width: 680px;
+    }
+
+    .stat {
+      padding: 16px 16px 14px;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    /* HERO VISUAL */
+    .hero-visual {
+      position: relative;
+    }
+
+    .glass-panel {
+      position: relative;
+      border-radius: 30px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .glass-panel::before {
+      content: "";
+      position: absolute;
+      inset: -60px;
+      background: radial-gradient(circle at top, rgba(46,229,157,0.18), transparent 40%);
+      pointer-events: none;
+    }
+
+    .main-shot {
+      width: 100%;
+      aspect-ratio: 1 / 1.05;
+      object-fit: cover;
+      border-radius: 22px;
+      display: block;
+      cursor: zoom-in;
+      transition: transform 0.5s ease, filter 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-shot:hover {
+      transform: scale(1.02);
+      filter: saturate(1.06);
+    }
+
+    .thumbs {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+
+    .thumb {
+      width: 84px;
+      height: 84px;
+      border-radius: 16px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.68;
+      border: 1px solid rgba(255,255,255,0.10);
+      transition: 0.25s ease;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .thumb:hover,
+    .thumb.active {
+      opacity: 1;
+      transform: translateY(-3px) scale(1.03);
+      border-color: rgba(46,229,157,0.35);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: 86px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1.05;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.8;
+      margin-bottom: 32px;
+      font-size: 1.02rem;
+    }
+
+    /* PRODUCT */
+    .product-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: center;
+      padding: 24px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .product-media {
+      position: relative;
+    }
+
+    .price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(46,229,157,0.10);
+      border: 1px solid rgba(46,229,157,0.18);
+      color: #dfffea;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .product-info h3 {
+      font-size: clamp(1.8rem, 2.6vw, 2.5rem);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+
+    .product-info p {
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 18px;
+      font-size: 1rem;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 10px;
+      margin: 22px 0 26px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(234,242,255,0.92);
+      line-height: 1.6;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .feature i {
+      color: var(--green);
+      font-style: normal;
+      font-weight: 900;
+      margin-top: 1px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .mini-box {
+      border-radius: 18px;
+      padding: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mini-box strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .mini-box span {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    /* BENEFITS */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .benefit {
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+      transition: 0.25s ease;
+    }
+
+    .benefit:hover {
+      transform: translateY(-4px);
+      border-color: rgba(46,229,157,0.22);
+      background: rgba(255,255,255,0.07);
+    }
+
+    .benefit .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      background: rgba(46,229,157,0.10);
+      color: var(--green-2);
+      font-size: 1.3rem;
+      font-weight: 900;
+      border: 1px solid rgba(46,229,157,0.18);
+    }
+
+    .benefit h4 {
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+    }
+
+    .benefit p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.98rem;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .step {
+      padding: 22px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      color: #06101d;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .step h4 {
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+    }
+
+    .step p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.96rem;
+    }
+
+    /* CONTACT */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .contact-card {
+      padding: 26px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(234,242,255,0.92);
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .form input,
+    .form textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 16px;
+      outline: none;
+      font-size: 1rem;
+      transition: 0.25s ease;
+    }
+
+    .form input:focus,
+    .form textarea:focus {
+      border-color: rgba(46,229,157,0.35);
+      box-shadow: 0 0 0 4px rgba(46,229,157,0.08);
+    }
+
+    .form textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .footer {
+      padding: 24px 0 42px;
+      color: rgba(234,242,255,0.55);
+      text-align: center;
+      font-size: 0.94rem;
+    }
+
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,0.88);
+      padding: 24px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-inner {
+      position: relative;
+      width: min(100%, 980px);
+      max-height: 90vh;
+      display: grid;
+      place-items: center;
+    }
+
+    .modal img {
+      width: 100%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 22px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.55);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      color: #06101d;
+      font-size: 1.3rem;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(46,229,157,0.25);
+    }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px) {
+      .hero-grid,
+      .product-card,
+      .contact-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .benefits-grid,
+      .steps,
+      .hero-stats,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-inner {
+        border-radius: 24px;
+        padding: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .hero {
+        padding-top: 170px;
+      }
+
+      .hero-copy {
+        text-align: center;
+        padding-right: 0;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-stats {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(1180px, calc(100% - 22px));
+      }
+
+      .nav-links {
+        gap: 2px;
+      }
+
+      .nav-links a {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+
+      .hero h1 {
+        line-height: 1.02;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="brand">
+        <div class="brand-mark">IZ</div>
+        <div class="brand-text">
+          <strong>IZHF</strong>
+          <span>Hydroponic Farming</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#product">Product</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button class="nav-cta" id="buyTopBtn">Buy Now</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">Smart vertical hydroponic systems for homes</div>
+          <h1>Grow fresh greens at home with <span>elegance</span>.</h1>
+          <p>
+            IZHF brings a premium vertical hydroponic system designed for modern homes.
+            Clean design, efficient water use, faster growth, and an easy setup that fits beautifully
+            in your space.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#product" class="btn btn-primary">Explore the Product</a>
+            <a href="#contact" class="btn btn-secondary">Contact Us</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>Home-friendly</strong>
+              <span>Built for apartments, rooftops, balconies, and indoor spaces.</span>
+            </div>
+            <div class="stat">
+              <strong>Water efficient</strong>
+              <span>Hydroponics helps reduce waste and maximize every drop.</span>
+            </div>
+            <div class="stat">
+              <strong>Fresh harvest</strong>
+              <span>Enjoy clean, healthy, and fast-growing vegetables.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="glass-panel">
+            <img id="heroMainImage" class="main-shot" src="product1.jpg" alt="Hydroponic product image" onclick="openModal(this.src)">
+            <div class="thumbs">
+              <img class="thumb active" src="product1.jpg" alt="Thumbnail 1" onclick="setMainImage(this)">
+              <img class="thumb" src="product2.jpg" alt="Thumbnail 2" onclick="setMainImage(this)">
+              <img class="thumb" src="product3.jpg" alt="Thumbnail 3" onclick="setMainImage(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section id="product" class="section">
+      <div class="container">
+        <h2 class="section-title reveal">Vertical Hydroponic System</h2>
+        <p class="section-subtitle reveal">
+          A compact, premium system for growing vegetables at home. It is designed to look clean,
+          perform efficiently, and make hydroponics feel simple and modern.
+        </p>
+
+        <div class="product-card reveal">
+          <div class="product-media">
+            <div class="price-tag">Price: 90 JD</div>
+            <img id="productMainImage" class="main-shot" src="product1.jpg" alt="Main product image" onclick="openModal(this.src)">
+            <div class="thumbs">
+              <img class="thumb active" src="product1.jpg" alt="Product thumbnail 1" onclick="setProductImage(this)">
+              <img class="thumb" src="product2.jpg" alt="Product thumbnail 2" onclick="setProductImage(this)">
+              <img class="thumb" src="product3.jpg" alt="Product thumbnail 3" onclick="setProductImage(this)">
+            </div>
+          </div>
+
+          <div class="product-info">
+            <h3>Made for modern home growers</h3>
+            <p>
+              This vertical hydroponic system is ideal for anyone who wants a beautiful,
+              space-saving solution for growing leafy greens and herbs at home.
+            </p>
+
+            <div class="feature-list">
+              <div class="feature"><i>✓</i><span>No soil needed — clean and practical for indoor use.</span></div>
+              <div class="feature"><i>✓</i><span>Vertical design — saves space and fits beautifully in homes.</span></div>
+              <div class="feature"><i>✓</i><span>Efficient system — supports healthy plant growth with less waste.</span></div>
+            </div>
+
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="buyNowBtn">Buy Now</button>
+              <a href="#contact" class="btn btn-secondary">Ask a Question</a>
+            </div>
+
+            <div class="mini-grid">
+              <div class="mini-box">
+                <strong>Target</strong>
+                <span>Homes, balconies, indoor corners, and rooftops.</span>
+              </div>
+              <div class="mini-box">
+                <strong>Design</strong>
+                <span>Premium visual style with a modern hydroponic look.</span>
+              </div>
+              <div class="mini-box">
+                <strong>Use</strong>
+                <span>Best for leafy vegetables and small home crops.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section id="benefits" class="section">
+      <div class="container">
+        <h2 class="section-title reveal">Why Hydroponics?</h2>
+        <p class="section-subtitle reveal">
+          The project is not only about selling a product. It is also about explaining why hydroponics
+          is a smart choice for people who want fresh food at home.
+        </p>
+
+        <div class="benefits-grid">
+          <article class="benefit reveal">
+            <div class="icon">01</div>
+            <h4>Space Saving</h4>
+            <p>Vertical farming lets you grow more in a smaller area, which makes it perfect for homes.</p>
+          </article>
+
+          <article class="benefit reveal">
+            <div class="icon">02</div>
+            <h4>Cleaner Growing</h4>
+            <p>No soil means less mess, easier maintenance, and a cleaner home-friendly growing experience.</p>
+          </article>
+
+          <article class="benefit reveal">
+            <div class="icon">03</div>
+            <h4>Fresh Results</h4>
+            <p>Hydroponic systems can support faster and more controlled growth for leafy vegetables and herbs.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="section">
+      <div class="container">
+        <h2 class="section-title reveal">How It Works</h2>
+        <p class="section-subtitle reveal">
+          Keep it simple, visual, and easy to understand. That makes the product feel more trustworthy
+          and easier to sell.
+        </p>
+
+        <div class="steps">
+          <div class="step reveal">
+            <div class="step-num">1</div>
+            <h4>Set up the tower</h4>
+            <p>Place the system in a suitable area and prepare the water tank.</p>
+          </div>
+
+          <div class="step reveal">
+            <div class="step-num">2</div>
+            <h4>Add water and nutrients</h4>
+            <p>Fill the reservoir and make sure the plant solution is ready.</p>
+          </div>
+
+          <div class="step reveal">
+            <div class="step-num">3</div>
+            <h4>Insert seedlings</h4>
+            <p>Put the seedlings or seeds into the growing slots.</p>
+          </div>
+
+          <div class="step reveal">
+            <div class="step-num">4</div>
+            <h4>Watch it grow</h4>
+            <p>Enjoy a clean, smart, and visually beautiful home-growing system.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="contact-wrap">
+          <div class="contact-card reveal">
+            <h3>Contact Us</h3>
+            <p>
+              Use this section for orders, questions, and product inquiries. For now it can be a simple
+              form or direct contact details.
+            </p>
+
+            <div class="contact-list">
+              <div class="contact-item">WhatsApp: Add your number here</div>
+              <div class="contact-item">Email: addyourmail@example.com</div>
+              <div class="contact-item">Location: Jordan</div>
+            </div>
+          </div>
+
+          <div class="contact-card reveal">
+            <h3>Send a Message</h3>
+            <form class="form">
+              <input type="text" placeholder="Your name" />
+              <input type="email" placeholder="Your email" />
+              <textarea placeholder="Write your message here..."></textarea>
+              <button type="button" class="btn btn-primary">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="footer">
+        © 2026 IZHF — Hydroponic Farming
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div id="imageModal" class="modal" onclick="closeModal(event)">
+    <div class="modal-inner" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <img id="modalImage" src="" alt="Expanded product image">
+    </div>
+  </div>
+
+  <script>
+    const productMainImage = document.getElementById("productMainImage");
+    const heroMainImage = document.getElementById("heroMainImage");
+    const modal = document.getElementById("imageModal");
+    const modalImage = document.getElementById("modalImage");
+
+    function setMainImage(el) {
+      heroMainImage.src = el.src;
+      updateActiveThumb(el, ".hero-visual .thumb");
+    }
+
+    function setProductImage(el) {
+      productMainImage.src = el.src;
+      updateActiveThumb(el, ".product-media .thumb");
+    }
+
+    function updateActiveThumb(activeEl, selector) {
+      document.querySelectorAll(selector).forEach(img => img.classList.remove("active"));
+      activeEl.classList.add("active");
+    }
+
+    function openModal(src) {
+      modalImage.src = src;
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal(event) {
+      if (event && event.target !== modal && event.target.className !== "modal-close") return;
+      modal.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("buyTopBtn").addEventListener("click", () => {
+      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+    });
+
+    document.getElementById("buyNowBtn").addEventListener("click", () => {
+      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
+    });
+
+    const revealEls = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // Close modal with ESC
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
+</body>
+</html>
